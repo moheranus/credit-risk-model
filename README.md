@@ -36,7 +36,7 @@ What are the key trade-offs between using a simple, interpretable model (like Lo
 Simple models like Logistic Regression with WoE are interpretable, making it easier to explain predictions to regulators and customers, which is critical for Basel II compliance. They are computationally efficient but may underfit complex data patterns, leading to lower predictive accuracy. Complex models like Gradient Boosting capture non-linear relationships, offering higher accuracy for RFM-based risk prediction. However, their opacity complicates regulatory validation and increases scrutiny. For Bati Bank, the trade-off involves balancing interpretability and compliance with predictive performance, with simple models often preferred for transparency in regulated environments.
 Setup Instructions
 
-Clone the repository:git clone https://github.com/moharanus/credit-risk-model.git
+Clone the repository:git clone https://github.com/moheranus/credit-risk-model.git
 cd credit-risk-model
 
 
