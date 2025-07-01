@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from mlflow.models.signature import infer_signature
 
 def load_processed_data(file_path):
     return pd.read_csv(file_path)
@@ -47,14 +48,18 @@ def train_model():
             
             mlflow.log_params(grid.best_params_)
             mlflow.log_metrics(metrics)
-            mlflow.sklearn.log_model(grid.best_estimator_, f"{name}_model")
+            
+            # Infer model signature
+            signature = infer_signature(X_train, grid.predict(X_train))
+            mlflow.sklearn.log_model(grid.best_estimator_, artifact_path=f"{name}_model", signature=signature)
             
             if metrics['roc_auc'] > best_score:
                 best_score = metrics['roc_auc']
                 best_model = grid.best_estimator_
     
     # Register the best model
-    mlflow.sklearn.log_model(best_model, "best_model", registered_model_name="CreditRiskModel")
+    signature = infer_signature(X_train, best_model.predict(X_train))
+    mlflow.sklearn.log_model(best_model, artifact_path="best_model", registered_model_name="CreditRiskModel", signature=signature)
 
 if __name__ == "__main__":
     train_model()
